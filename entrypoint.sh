@@ -19,7 +19,7 @@ s3cmd ls "s3://$S3_URL" > /dev/null
    echo "CRON_SCHEDULE set to default ('$CRON_SCHEDULE')"
 
 # add a cron job
-echo "$CRON_SCHEDULE root rm -rf /tmp/dump && mysqldump -u root -p'$MYSQL_ROOT_PASSWORD' --all-databases --single-transaction --force -h "$MYSQL_HOST" -P "$MYSQL_PORT" | gzip > /tmp/dump && s3cmd sync /tmp/dump s3://$S3_URL/ && rm -rf /tmp/dump" >> /etc/crontab
+echo "$CRON_SCHEDULE root rm -rf /tmp/dump && mysqldump -u root -p'"'"'$MYSQL_ROOT_PASSWORD'"'"' --all-databases --single-transaction --force -h "$MYSQL_HOST" -P "$MYSQL_PORT" | gzip > /tmp/dump && s3cmd sync /tmp/dump s3://$S3_URL/ && rm -rf /tmp/dump" >> /etc/crontab
 crontab /etc/crontab
 
 exec "$@"
