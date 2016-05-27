@@ -2,7 +2,7 @@
 set -eo pipefail
 
 # verify variables
-if [ -z "$S3_ACCESS_KEY" -o -z "$S3_SECRET_KEY" -o -z "$S3_URL" -o -z "$MYSQL_HOST" -o -z "$MYSQL_PORT"]; then
+if [ -z "$S3_ACCESS_KEY" -o -z "$S3_SECRET_KEY" -o -z "$S3_URL" -o -z "$MYSQL_HOST" -o -z "$MYSQL_PORT" ]; then
 	echo >&2 'Backup information is not complete. You need to specify S3_ACCESS_KEY, S3_SECRET_KEY, S3_URL, MYSQL_URL, MYSQL_PORT. No backups, no fun.'
 	exit 1
 fi
