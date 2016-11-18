@@ -7,6 +7,7 @@ Following ENV variables must be specified:
  - `MYSQL_PORT` contains the remote port number for mysqldump option -P
   - `mysqlserver.domain.com:27017` in case of a single instance
  - `MYSQL_ROOT_PASSWORD` password of user `root` who has access to all dbs. Default value is the value of `MYSQL_PASSWORD`
+ - `MYSQL_USER` mysql user, default: `root`
  - `S3_URL` contains address in S3 where to store backups
   - `bucket-name/directory`
  - `S3_ACCESS_KEY`
