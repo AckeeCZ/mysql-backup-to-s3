@@ -18,11 +18,13 @@ s3cmd ls "s3://$S3_URL" > /dev/null
 [[ -z "$CRON_SCHEDULE" ]] && CRON_SCHEDULE='0 2 * * *' && \
    echo "CRON_SCHEDULE set to default ('$CRON_SCHEDULE')"
 
-[[ -z "$MYSQL_ROOT_PASSWORD" ]] && MYSQL_ROOT_PASSWORD="$MYSQL_PASSWORD" && \
-   echo "MYSQL_ROOT_PASSWORD set to MYSQL_PASSWORD"
+USER=root
+PASSWORD="$MYSQL_ROOT_PASSWORD"
+[[ -z "$MYSQL_ROOT_PASSWORD" ]] && PASSWORD="$MYSQL_PASSWORD" && \
+   echo "PASSWORD set to MYSQL_PASSWORD. USER is $MYSQL_USER" && USER="$MYSQL_USER"
 
 # add a cron job
-echo "$CRON_SCHEDULE root rm -rf /tmp/dump* && mysqldump -u root -p'$MYSQL_ROOT_PASSWORD' --all-databases --single-transaction --force -h "$MYSQL_HOST" -P "$MYSQL_PORT" --result-file=/tmp/dump.sql --verbose >> /var/log/cron.log 2>&1 && gzip -c /tmp/dump.sql > /tmp/dump && s3cmd sync /tmp/dump s3://$S3_URL/ >> /var/log/cron.log 2>&1 && rm -rf /tmp/dump*" >> /etc/crontab
+echo "$CRON_SCHEDULE root rm -rf /tmp/dump* && mysqldump -u $USER -p'$PASSWORD' --all-databases --single-transaction --force -h "$MYSQL_HOST" -P "$MYSQL_PORT" --result-file=/tmp/dump.sql --verbose >> /var/log/cron.log 2>&1 && gzip -c /tmp/dump.sql > /tmp/dump && s3cmd sync /tmp/dump s3://$S3_URL/ >> /var/log/cron.log 2>&1 && rm -rf /tmp/dump*" >> /etc/crontab
 crontab /etc/crontab
 
 exec "$@"
